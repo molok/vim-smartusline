@@ -27,4 +27,12 @@ note: you probably want to set the statusline to never hide, like this:
 
     set laststatus=2
 
+
+other requirements are:
+
+    set nocompatible
+    syntax on
+
+Enjoy!
+
     
