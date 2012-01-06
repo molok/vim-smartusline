@@ -1,6 +1,6 @@
 " smartusline.vim
 " ---------------------------------------------------------------
-" Version:  0.1
+" Version:  0.1.1
 " Authors: Alessio 'molok' Bolognino <alessio.bolognino+vim@gmail.com>
 " Last Modified: 2012-01-06
 " License:  GPL (Gnu Public License)
@@ -16,7 +16,12 @@ if exists('g:loaded_smartusline') || &cp
     finish
 endif
 
-let g:loaded_smartusline = 0.1
+if &stl == ""
+    echoerr "SmartusLine: statusline can't be empty"
+    finish
+endif
+
+let g:loaded_smartusline = 0.1.1
 let s:keepcpo         = &cpo
 set cpo&vim
 
