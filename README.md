@@ -33,6 +33,12 @@ other requirements are:
     set nocompatible
     syntax on
 
+also the statusline option can't be empty, if you want to use the
+default statusline you should set it explicitly in your vimrc, it should be
+something like this:
+
+	  set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+
 Enjoy!
 
     
