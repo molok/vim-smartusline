@@ -57,7 +57,6 @@ function! SmartusLineWin(mode)
 
     if start_idx >= 0
         if a:mode == 'Enter'
-            echo 'enter '.expand('%:t')
             if match(curr_stl, s:open_hi) < 0
                     if start_idx > 0
                         let new_stl .= curr_stl[0 : start_idx -1]
