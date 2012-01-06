@@ -23,4 +23,8 @@ self-explanatory, the defaults are:
     let g:smartusline_hi_virtual_replace = 'guibg=#e454ba guifg=black ctermbg=magenta ctermfg=black'
     let g:smartusline_hi_normal = 'guibg=#95e454 guifg=black ctermbg=lightgreen ctermfg=black'
 
+note: you probably want to set the statusline to never hide, like this:
 
+    set laststatus=2
+
+    
