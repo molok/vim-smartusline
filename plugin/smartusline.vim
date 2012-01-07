@@ -63,18 +63,18 @@ function! SmartusLineWin(mode)
     if start_idx >= 0
         if a:mode == 'Enter'
             if match(curr_stl, s:open_hi) < 0
-                    if start_idx > 0
-                        let new_stl .= curr_stl[0 : start_idx -1]
-                    endif
-                    let new_stl .= s:open_hi 
-                    let new_stl .= curr_stl[start_idx : end_idx -1] . s:close_hi
-                    let new_stl .= curr_stl[end_idx : ]
+                if start_idx > 0
+                    let new_stl .= curr_stl[0 : start_idx -1]
                 endif
+                let new_stl .= s:open_hi 
+                let new_stl .= curr_stl[start_idx : end_idx -1] . s:close_hi
+                let new_stl .= curr_stl[end_idx : ]
+            endif
         elseif a:mode == 'Leave'
             if match(curr_stl, s:open_hi) >= 0
-                    let new_stl .= curr_stl[0 : end_idx -1] 
-                    let new_stl .= curr_stl[end_idx +len(s:close_hi) :]
-                    let new_stl = substitute(new_stl, s:open_hi, '', 'g')
+                let new_stl .= curr_stl[0 : end_idx -1] 
+                let new_stl .= curr_stl[end_idx +len(s:close_hi) :]
+                let new_stl = substitute(new_stl, s:open_hi, '', 'g')
             endif
         endif
     endif
