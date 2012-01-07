@@ -1,0 +1,77 @@
+*smartusline.txt*	   For Vim version 7.0	         Last change: 2012 January 7
+
+Author:	        Alessio Bolognino
+Version:        0.2
+
+Homepage: https://github.com/molok/vim-smartusline
+
+
+==============================================================================
+1. Contents                                          *smartusline*
+
+    1. Contents...................: |smartusline-contents|
+    2. Description................: |smartusline-description|
+    3. Configuration..............: |smartusline-configure|
+    3. Requirements...............: |smartusline-requirements|
+
+==============================================================================
+2. Description                                       *smartusline-description*
+
+SmartusLine is Vim plugin that changes the color of the statusline of the
+focused window according with the current mode (normal/insert/replace)
+
+You can configure what part of the 'statusline' will be highlighted
+
+==============================================================================
+3. Configuration                                     *smartusline-configure*
+
+SmartusLine allows the user to choose what part of the statusline will be
+highlighted
+
+These are the supported global variables that you can customize in your |.vimrc| 
+>
+    smartusline_string_to_highlight
+<       Default: '%f'
+        Defines which part of the statusline will be highlighted, by default
+        it highlightes the filename ('%f'), it uses the same syntax used by
+        'statusline'
+
+The currently supported mode are |Normal-mode|, |Insert-mode|, |Replace-mode|
+and |Virtual-Replace-mode|:
+>
+    smartusline_hi_normal
+<       Default: 'guibg=#95e454 guifg=black ctermbg=lightgreen ctermfg=black'
+        This variable sets the 'highlight' for the |Normal-mode|
+>
+    smartusline_hi_insert
+<       Default:'guibg=orange guifg=black ctermbg=58 ctermfg=black' 
+        This variable sets the 'highlight' for the |Insert-mode|
+>
+    smartusline_hi_replace
+<       Default: 'guibg=#e454ba guifg=black ctermbg=magenta ctermfg=black'
+        This variable sets the 'highlight' for the |Replace-mode| 
+>
+    smartusline_hi_virtual_replace
+<       Default: 'guibg=#e454ba guifg=black ctermbg=magenta ctermfg=black'
+        This variable sets the 'highlight' for the |Virtual-Replace-mode|
+
+==============================================================================
+4. Requirements                                      *smartusline-requirements*
+
+Note: you cant have an empty 'statusline', even if you want to use the
+default one, you have to set it explicitly in your |vimrc|, e.g.:
+>
+  set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+
+Like most plugins, SmartusLine requires a couple of options set:
+>
+   set nocompatible
+   syntax on
+<
+When using SmartusLine you probably want to set your statusline to never hide, 
+you can do it with
+>
+    set laststatus=2
+<
+
+vim: ts=4 ft=help tw=78
