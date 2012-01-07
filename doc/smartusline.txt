@@ -1,7 +1,7 @@
 *smartusline.txt*	   For Vim version 7.0	         Last change: 2012 January 7
 
 Author:	        Alessio Bolognino
-Version:        0.2
+Version:        0.2.1
 
 Homepage: https://github.com/molok/vim-smartusline
 
