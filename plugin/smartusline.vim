@@ -58,8 +58,10 @@ function! SmartusLineWin(mode)
 
     if match(curr_stl, '^%!') >= 0
         let eval_stl = eval(curr_stl[2:-1]) 
-        " matches stuff like %{Foobar('one''}', 'two)', ')}three')}
-        let match_regex = '%{\s*\w\+\s*(\s*\(\(''.\{-}'',\?\s*\|".\{-},\?\s*\)\)*)\s*}'
+        " matches stuff like %{Foobar('one''}', 'two)', 'three')}
+        "let match_regex = '%{\s*\w\+\s*(\s*\(\(''.\{-}'',\?\s*\|".\{-},\?\s*\)\)*)\s*}'
+        " TODO FIXME fails on  %{Foobar(')}')}
+        let march_regex = '%{\(.\{-}\|.\)\s*)\s*}'
         while match(eval_stl, match_regex) >= 0
             let eval_stl = substitute(eval_stl, match_regex, '\=eval(submatch(0)[2:-2])' , 'g')
         endwhile
