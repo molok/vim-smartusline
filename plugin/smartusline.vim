@@ -1,6 +1,6 @@
 " smartusline.vim
 " ---------------------------------------------------------------
-" Version:  0.2.1
+" Version:  0.3
 " Authors: Alessio 'molok' Bolognino <alessio.bolognino+vim@gmail.com>
 " Last Modified: 2012-01-06
 " License:  GPL (Gnu Public License)
@@ -21,7 +21,7 @@ if &stl == ""
     finish
 endif
 
-let g:loaded_smartusline = 0.2.1
+let g:loaded_smartusline = 0.3
 let s:keepcpo         = &cpo
 set cpo&vim
 
@@ -55,6 +55,16 @@ function! SmartusLineWin(mode)
 
     let curr_stl = &stl
     let new_stl = ""
+
+    if match(curr_stl, '^%!') >= 0
+        let eval_stl = eval(curr_stl[2:-1]) 
+        " matches stuff like %{Foobar('one''}', 'two)', ')}three')}
+        let match_regex = '%{\s*\w\+\s*(\s*\(\(''.\{-}'',\?\s*\|".\{-},\?\s*\)\)*)\s*}'
+        while match(eval_stl, match_regex) >= 0
+            let eval_stl = substitute(eval_stl, match_regex, '\=eval(submatch(0)[2:-2])' , 'g')
+        endwhile
+        let curr_stl = eval_stl
+    endif
 
     let string_to_match = substitute(g:smartusline_string_to_highlight,'\\','\\\\','g')
     let start_idx = match(curr_stl, '\V'. string_to_match)
