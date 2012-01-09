@@ -57,15 +57,7 @@ function! SmartusLineWin(mode)
     let new_stl = ""
 
     if match(curr_stl, '^%!') >= 0
-        let eval_stl = eval(curr_stl[2:-1]) 
-        " matches stuff like %{Foobar('one''}', 'two)', 'three')}
-        "let match_regex = '%{\s*\w\+\s*(\s*\(\(''.\{-}'',\?\s*\|".\{-},\?\s*\)\)*)\s*}'
-        " TODO FIXME fails on  %{Foobar(')}')}
-        let march_regex = '%{\(.\{-}\|.\)\s*)\s*}'
-        while match(eval_stl, match_regex) >= 0
-            let eval_stl = substitute(eval_stl, match_regex, '\=eval(submatch(0)[2:-2])' , 'g')
-        endwhile
-        let curr_stl = eval_stl
+        let curr_stl = s:EvalSTL(curr_stl)
     endif
 
     let string_to_match = substitute(g:smartusline_string_to_highlight,'\\','\\\\','g')
@@ -111,11 +103,70 @@ function! SmartusLineInsert(mode)
     endif
 endfunction
 
-au WinLeave * call SmartusLineWin('Leave')
-au WinEnter,BufEnter,VimEnter * call SmartusLineWin('Enter')
+augroup SmartusLine
+    au WinLeave * call SmartusLineWin('Leave')
+    au WinEnter,BufEnter,VimEnter * call SmartusLineWin('Enter')
 
-au InsertLeave * call SmartusLineInsert('Leave')
-au InsertEnter * call SmartusLineInsert('Enter')
+    au InsertLeave * call SmartusLineInsert('Leave')
+    au InsertEnter * call SmartusLineInsert('Enter')
 
-" this shouldn't be needed, but it is
-au GUIEnter * execute 'hi StatColor ' g:smartusline_hi_normal
+    " this shouldn't be needed, but it is
+    au GUIEnter * execute 'hi StatColor ' g:smartusline_hi_normal
+augroup END
+
+fun! s:EvalSTL(stl_to_eval)
+    let str = eval(a:stl_to_eval[2:-1])
+    let prev_out = '0'
+    let out = '1'
+
+    " if out == prev_out then I don't have to evaluate anything else
+    while out != prev_out
+        let in_quote = 0
+        let in_dquote = 0
+        let in_fun = 0
+        let prev_was_perc = 0
+        let start_fun = -1
+
+        let out = ''
+        let i = 0
+
+        while i < len(str)
+            if str[i] == "'" && !in_dquote
+                let in_quote = !in_quote
+            endif
+
+            if str[i] == '"' && !in_quote
+                let in_dquote = !in_dquote
+            endif
+
+            if prev_was_perc == 1
+                if str[i] == '{' && !in_quote && !in_dquote
+                    let in_fun = 1
+                    let start_fun = i+1
+                else
+                    if !in_fun
+                        let out .= '%'
+                    endif
+                endif
+                let prev_was_perc = 0
+            endif
+
+            if str[i] == '}' && in_fun && !in_quote && !in_dquote
+                let in_fun = 0
+                let fun_to_eval = str[start_fun : i-1]
+                let out .= eval(fun_to_eval)
+            elseif str[i] != '%'
+                if !in_fun
+                    let out .= str[i]
+                endif
+            else
+                let prev_was_perc = 1
+            endif
+            let i = i+1
+        endwhile
+        let prev_out = out
+    endwhile
+
+    return out
+
+endfunction
