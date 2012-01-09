@@ -99,11 +99,13 @@ function! SmartusLineInsert(mode)
     endif
 endfunction
 
-au WinLeave * call SmartusLineWin('Leave')
-au WinEnter,BufEnter,VimEnter * call SmartusLineWin('Enter')
+augroup SmartusLine
+    au WinLeave * call SmartusLineWin('Leave')
+    au WinEnter,BufEnter,VimEnter * call SmartusLineWin('Enter')
 
-au InsertLeave * call SmartusLineInsert('Leave')
-au InsertEnter * call SmartusLineInsert('Enter')
+    au InsertLeave * call SmartusLineInsert('Leave')
+    au InsertEnter * call SmartusLineInsert('Enter')
 
-" this shouldn't be needed, but it is
-au GUIEnter * execute 'hi StatColor ' g:smartusline_hi_normal
+    " this shouldn't be needed, but it is
+    au GUIEnter * execute 'hi StatColor ' g:smartusline_hi_normal
+augroup END
