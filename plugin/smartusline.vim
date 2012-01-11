@@ -1,5 +1,5 @@
 " smartusline.vim
-" ---------------------------------------------------------------
+" ------------------------------------------------------------------------------
 " Version:  0.2.1
 " Authors: Alessio 'molok' Bolognino <alessio.bolognino+vim@gmail.com>
 " Last Modified: 2012-01-06
