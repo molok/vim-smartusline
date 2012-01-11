@@ -1,7 +1,7 @@
-*smartusline.txt*	   For Vim version 7.0	         Last change: 2012 January 7
+*smartusline.txt*	   For Vim version 7.0	         Last change: 2012 January 8
 
 Author:	        Alessio Bolognino
-Version:        0.2.1
+Version:        0.3
 
 Homepage: https://github.com/molok/vim-smartusline
 
@@ -35,6 +35,38 @@ These are the supported global variables that you can customize in your |.vimrc|
         Defines which part of the statusline will be highlighted, by default
         it highlightes the filename ('%f'), it uses the same syntax used by
         'statusline'
+>
+    smartusline_deep_eval
+<       Default: 0
+        If this variable is set to 0 and your statusline starts with "%!"
+        then only that expression is evaluated before searching for a match
+        of smartusline_string_to_highlight.
+        If this variable is set to 1, all the "%{}" expressions returned
+        by the %! statusline function are evaluated before looking for a
+        match.
+
+        For example, suppose you have:
+>
+        :fun! MyFilename()
+        :    return 'filename: %f'
+        :endfun
+
+        :fun! MyStatusLine()
+        :    return '(%n) %{MyFilename()}'
+        :endfun
+
+        :set statusline=%!MyStatusLine()
+<
+        To highlight 'filename: %f'
+
+        with smartusline_deep_eval = 0
+        you can set
+        smartusline_string_to_highlight = '%{MyFilename()}'
+
+        with smartusline_deep_eval = 1 
+        you can set
+        smartusline_string_to_highlight = 'filename: %f'
+
 
 The currently supported mode are |Normal-mode|, |Insert-mode|, |Replace-mode|
 and |Virtual-Replace-mode|:
