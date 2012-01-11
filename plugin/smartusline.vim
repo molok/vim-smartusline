@@ -41,6 +41,10 @@ if !exists('g:smartusline_hi_normal')
     let g:smartusline_hi_normal = 'guibg=#95e454 guifg=black ctermbg=lightgreen ctermfg=black'
 endif
 
+if !exists('g:smartusline_deep_eval')
+    let g:smartusline_deep_eval = 0
+endif
+
 execute 'hi StatColor ' . g:smartusline_hi_normal
 
 "let g:smartusline_string_to_highlight = '(%n) %f '
@@ -57,7 +61,7 @@ function! SmartusLineWin(mode)
     let new_stl = ""
 
     if match(curr_stl, '^%!') >= 0
-        let curr_stl = s:EvalSTL(curr_stl)
+        let curr_stl = s:EvalSTL(curr_stl, g:smartusline_deep_eval)
     endif
 
     let string_to_match = substitute(g:smartusline_string_to_highlight,'\\','\\\\','g')
@@ -114,8 +118,11 @@ augroup SmartusLine
     au GUIEnter * execute 'hi StatColor ' g:smartusline_hi_normal
 augroup END
 
-fun! s:EvalSTL(stl_to_eval)
+fun! s:EvalSTL(stl_to_eval, deep_eval)
     let str = eval(a:stl_to_eval[2:-1])
+    if a:deep_eval == 0
+        return str
+    endif
     let prev_out = '0'
     let out = '1'
 

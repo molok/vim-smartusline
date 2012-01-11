@@ -1,8 +1,8 @@
 SmartusLine
 -----------
 
-SmartusLine is Vim plugin that changes the color of the statusbar of the focused
-window according with the current mode (normal/insert/replace)
+SmartusLine is Vim plugin that changes the color of the statusline of the
+focused window according with the current mode (normal/insert/replace)
 
 it looks like this:
 
@@ -27,7 +27,6 @@ note: you probably want to set the statusline to never hide, like this:
 
     set laststatus=2
 
-
 other requirements are:
 
     set nocompatible
@@ -38,6 +37,9 @@ default statusline you should set it explicitly in your vimrc, it should be
 something like this:
 
 	  set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+
+
+For a more complete documentation, read the help file (:help smartusline)
 
 Enjoy!
 
