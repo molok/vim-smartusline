@@ -25,20 +25,40 @@ let g:loaded_smartusline = 0.3
 let s:keepcpo         = &cpo
 set cpo&vim
 
+let s:def_cterm_replace = ''
+let s:def_cterm_normal  = ''
+let s:def_cterm_insert  = ''
+
+if (&t_Co > 0)
+    if (&t_Co <= 16)
+        let s:def_cterm_replace = 'ctermfg=black ctermbg=13'
+        let s:def_cterm_normal  = 'ctermfg=black ctermbg=10'
+        let s:def_cterm_insert  = 'ctermfg=white ctermbg=9'
+    elseif (&t_Co <= 88)
+        let s:def_cterm_replace = 'ctermfg=black ctermbg=13'
+        let s:def_cterm_normal  = 'ctermfg=black ctermbg=82'
+        let s:def_cterm_insert  = 'ctermfg=white ctermbg=9'
+    elseif (&t_Co <= 256)
+        let s:def_cterm_replace = 'ctermfg=black ctermbg=169'
+        let s:def_cterm_normal  = 'ctermfg=black ctermbg=113'
+        let s:def_cterm_insert  = 'ctermfg=black ctermbg=214'
+    endif
+endif
+
 if !exists('g:smartusline_hi_replace')
-    let g:smartusline_hi_replace = 'guibg=#e454ba guifg=black ctermbg=magenta ctermfg=black'
+    let g:smartusline_hi_replace = 'guibg=#e454ba guifg=black ' . s:def_cterm_replace
 endif
 
 if !exists('g:smartusline_hi_insert')
-    let g:smartusline_hi_insert = 'guibg=orange guifg=black ctermbg=58 ctermfg=black'
+    let g:smartusline_hi_insert = 'guibg=orange guifg=black ' . s:def_cterm_insert
 endif
 
 if !exists('g:smartusline_hi_virtual_replace')
-    let g:smartusline_hi_virtual_replace = 'guibg=#e454ba guifg=black ctermbg=magenta ctermfg=black'
+    let g:smartusline_hi_virtual_replace = 'guibg=#e454ba guifg=black ' . s:def_cterm_replace
 endif
 
 if !exists('g:smartusline_hi_normal')
-    let g:smartusline_hi_normal = 'guibg=#95e454 guifg=black ctermbg=lightgreen ctermfg=black'
+    let g:smartusline_hi_normal = 'guibg=#95e454 guifg=black ' . s:def_cterm_normal
 endif
 
 if !exists('g:smartusline_deep_eval')
