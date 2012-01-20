@@ -79,9 +79,7 @@ function! SmartusLineWin(mode)
     let curr_stl = &stl
     let new_stl = ""
 
-    if match(curr_stl, '^%!') >= 0
-        let curr_stl = s:EvalSTL(curr_stl, g:smartusline_deep_eval)
-    endif
+    let curr_stl = s:EvalSTL(curr_stl, g:smartusline_deep_eval)
 
     let string_to_match = substitute(g:smartusline_string_to_highlight,'\\','\\\\','g')
     let start_idx = match(curr_stl, '\V'. string_to_match)
@@ -139,7 +137,11 @@ augroup SmartusLine
 augroup END
 
 fun! s:EvalSTL(stl_to_eval, deep_eval)
-    let str = eval(a:stl_to_eval[2:-1])
+    if match(a:stl_to_eval, '^%!') >= 0
+        let str = eval(a:stl_to_eval[2:-1])
+    else
+        let str = a:stl_to_eval
+    endif
     if a:deep_eval == 0
         return str
     endif
