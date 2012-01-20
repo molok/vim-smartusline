@@ -2,7 +2,7 @@
 " ---------------------------------------------------------------
 " Version:  0.3
 " Authors: Alessio 'molok' Bolognino <alessio.bolognino+vim@gmail.com>
-" Last Modified: 2012-01-06
+" Last Modified: 2012-01-20
 " License:  GPL (Gnu Public License)
 " ------------------------------------------------------------------------------
 " Known reproducible bug:
@@ -67,7 +67,6 @@ endif
 
 execute 'hi StatColor ' . g:smartusline_hi_normal
 
-"let g:smartusline_string_to_highlight = '(%n) %f '
 if !exists('g:smartusline_string_to_highlight')
     let g:smartusline_string_to_highlight = '%f'
 endif
@@ -108,7 +107,7 @@ function! SmartusLineWin(mode)
     endif
 
     if new_stl != ""
-        execute "setlocal statusline=" . substitute(new_stl, ' ', '\\ ', 'g')
+        let &l:stl = new_stl
     endif
 
 endfunction
